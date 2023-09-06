@@ -1,0 +1,26 @@
+﻿@page
+@model RentWeb.Pages.Admin.PowerTypes.EditModel
+
+<form method="post">
+	<input hidden asp-for="PowerType.Id"/>
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary pl-3">Редактировать источник питания</h2>
+			<hr />
+		</div>
+		<div asp-validation-summary="All"></div>
+		<div class="mb-3">
+			<label asp-for="PowerType.Name"></label>
+			<input asp-for="@Model.PowerType.Name" class="form-control" />
+			<span asp-validation-for="PowerType.Name" class="text-danger"></span>
+		</div>
+		<button type="submit" class="btn btn-warning" style="width:150px;">Редактировать</button>
+		<a asp-page="Index" class="btn btn-secondary" style="width:150px">Назад к списку</a>
+	</div>
+</form>
+
+@section Scripts{
+	@{
+	<partial name="_ValidationScriptsPartial"/>
+	}
+}

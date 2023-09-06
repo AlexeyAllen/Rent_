@@ -1,0 +1,25 @@
+﻿@page
+@model RentWeb.Pages.Admin.PowerTypes.CreateModel
+
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary pl-3">Создать источник питания</h2>
+			<hr />
+		</div>
+		<div asp-validation-summary="All"></div>
+		<div class="mb-3">
+			<label asp-for="PowerType.Name"></label>
+			<input asp-for="@Model.PowerType.Name" class="form-control" />
+			<span asp-validation-for="PowerType.Name" class="text-danger"></span>
+		</div>
+		<button type="submit" class="btn btn-warning" style="width:150px;">Create</button>
+		<a asp-page="Index" class="btn btn-secondary" style="width:150px">Back To List</a>
+	</div>
+</form>
+
+@section Scripts{
+	@{
+	<partial name="_ValidationScriptsPartial"/>
+	}
+}

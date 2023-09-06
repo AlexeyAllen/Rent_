@@ -1,0 +1,101 @@
+﻿@using Rent.Utility;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - РентВеб</title>
+	<link rel="stylesheet" href="~/css/bootswatch_cosmo.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/RentWeb.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css" />
+	<link rel="stylesheet" href="~/lib/toastr/toastr.css" />
+	<link rel="stylesheet" href="~/lib/datatables/datatables.css" />
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #ffbd00;">
+			<div class="container">
+				<a class="navbar-brand" asp-area="" asp-page="/Index">РентВеб</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+					<ul class="navbar-nav flex-grow-1">
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-page="/Index">Каталог</a>
+						</li>
+						@if (User.IsInRole(StaticDetails.AdminRole) || User.IsInRole(StaticDetails.StoreKeeperRole))
+						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-page="/Admin/Order/OrderList">Заказы</a>
+							</li>
+						}
+						@if (User.IsInRole(StaticDetails.AdminRole) || User.IsInRole(StaticDetails.RepairManRole))
+						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-page="/Admin/Order/ManageOrder">Управление заказами</a>
+							</li>
+						}
+						@if (User.IsInRole(StaticDetails.AdminRole))
+						{
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Админ</a>
+								<div class="dropdown-menu">
+									<a class="nav-link text-dark" asp-area="" asp-page="/Admin/Categories/Index">Категории</a>
+									<a class="nav-link text-dark" asp-area="" asp-page="/Admin/PowerTypes/Index">Источники питания</a>
+									<a class="nav-link text-dark" asp-area="" asp-page="/Admin/CatalogItems/Index">Инструменты из каталога</a>
+
+									<div class="dropdown-divider"></div>
+									<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Регистрация сотрудника</a>
+								</div>
+							</li>
+						}
+						<li>
+							<a class="nav-link text-dark" asp-area="" asp-page="/Customer/Cart/Index">
+								<i class="bi bi-cart"></i>
+							</a>
+						</li>
+					</ul>
+					<partial name="_LoginPartial" />
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<main role="main" class="pb-3">
+			<partial name="_Notification" />
+			@RenderBody()
+		</main>
+	</div>
+
+	<footer @*class="border-top footer text-muted"*@ style="background-color: #5a5656;">
+			<center>
+				<div>
+					<div>
+						<p style="margin-bottom:0;">РентВеб -  Аренда инструмента онлайн</p>
+						<p style="margin : 0; padding-top:0;">Copyright © 2023 г.</p>
+					</div>
+					<div>
+						<h3>Как нас найти</h3>
+						<p style="margin : 0; padding-top:0;"><strong>Адрес:</strong> г. Москва, ул. Академика Пелюгина 5</p>
+						<p style="margin : 0; padding-top:0;"><strong>Тел.: </strong>+7 (495) 333-33-33</p>
+						<p style="margin : 0; padding-top:0;"><strong>Время работы:</strong> пн./пт.: 09:00 - 17:00 | сб./вс.: 9:00 - 13:00</p>
+					</div>
+				</div>
+			</center>
+			@*&copy; 2023 - РентВеб - <a asp-area="" asp-page="/Privacy">Privacy</a>*@
+	</footer>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/lib/dataTables/datatables.min.js"></script>
+	<script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+	@*<script src="https://cdn.tiny.cloud/1/wyjgm9aqa7o0gmte74u8d6ce6oj9lu2ujxie7dx8ddof4ha5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>*@
+	<script src="~/lib/toastr/toastr.min.js"></script>
+
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

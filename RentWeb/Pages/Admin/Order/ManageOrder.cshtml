@@ -1,0 +1,76 @@
+﻿@page
+@model RentWeb.Pages.Admin.Order.ManageOrderModel
+@using Rent.Utility
+
+
+<h1 class="text-primary py-3"><b>Управление заказами</b></h1>
+<form method="post">
+	<div class="container row bg-white p-2 mb-3 rounded">
+		@foreach (var item in Model.OrderDetailVM)
+		{
+			<div class="col-12 pb-3 pt-3 mt-4 border rounded">
+				<div class="row">
+					<div class="col-4">
+						Номер заказа : @item.OrderHeader.Id
+						<ul class="text-info">
+							@foreach (var details in item.OrderDetails)
+							{
+								<li>@details.Name x @details.Count</li>
+							}
+						</ul>
+					</div>
+					<div class="col-4 pb-2">
+						<div class="input-group pb-2">
+							<div class="input-group-append">
+								<span class="input-group-text border">Время</span>
+							</div>
+							<input type="text" value="@item.OrderHeader.PickUpTime" class="form-control" readonly />
+						</div>
+						<textarea readonly asp-for="@item.OrderHeader.Comments" class="rounded border form-control" rows="3"></textarea>
+					</div>
+					<div class="col-3 offset-1 d-flex align-content-center">
+						<div class="col-12">
+							@if (item.OrderHeader.Status == StaticDetails.StatusConfirmed)
+							{
+								<button type="submit" class="btn btn-warning form-control mb-3"
+								asp-page-handler="OrderInProcess" asp-route-orderId="@item.OrderHeader.Id">
+									<i class="bi bi-tools"></i> &nbsp; Подготовка инструмента
+								</button>
+							}
+							@if (item.OrderHeader.Status == StaticDetails.StatusInProcess)
+							{
+								<button type="submit" class="btn btn-success form-control mb-3"
+								asp-page-handler="OrderReady" asp-route-orderId="@item.OrderHeader.Id">
+									<i class="bi bi-hand-thumbs-up"></i> &nbsp; Инструмент готов к выдаче
+								</button>
+							}
+							@if (item.OrderHeader.Status == StaticDetails.StatusReady)
+							{
+								<button type="submit" class="btn btn-info form-control mb-3"
+								asp-page-handler="OrderIssue" asp-route-orderId="@item.OrderHeader.Id">
+									<i class="bi bi-cart-check"></i> &nbsp; Инструмент выдан
+								</button>
+							}
+							@if (item.OrderHeader.Status == StaticDetails.StatusIssued)
+							{
+								<button type="submit" class="btn btn-warning form-control mb-3"
+								asp-page-handler="OrderReturn" asp-route-orderId="@item.OrderHeader.Id">
+									<i class="bi bi-emoji-laughing"></i> &nbsp; Инструмент возращен
+								</button>
+							}
+
+							<button type="submit" class="btn btn-outline-danger form-control mb-3"
+								asp-page-handler="OrderCancel" asp-route-orderId="@item.OrderHeader.Id">
+								<i class="bi bi-x-square-fill"></i> &nbsp; Отменить заказ
+							</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</form>
+
+
+
